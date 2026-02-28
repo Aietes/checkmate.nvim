@@ -1,0 +1,19 @@
+---@meta
+
+-- LuaLS in some environments does not provide vim.quickfix.entry metadata.
+-- Define a minimal local shape so plugin annotations stay useful.
+---@class vim.quickfix.entry
+---@field bufnr? integer
+---@field filename? string
+---@field lnum? integer
+---@field col? integer
+---@field end_lnum? integer
+---@field end_col? integer
+---@field text? string
+---@field type? string
+---@field nr? integer
+---@field valid? integer
+---@field module? string
+---@field pattern? string
+---@field vcol? integer
+---@field user_data? any
