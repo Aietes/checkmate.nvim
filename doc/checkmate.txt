@@ -1,0 +1,235 @@
+*checkmate.txt*        checkmate.nvim help        Last change: 2026-02-27
+
+==============================================================================
+CONTENTS                                                  *checkmate-contents*
+
+1. Introduction...........................|checkmate-introduction|
+2. Requirements...........................|checkmate-requirements|
+3. Installation...........................|checkmate-installation|
+4. Setup..................................|checkmate-setup|
+5. Commands...............................|checkmate-commands|
+6. API....................................|checkmate-api|
+7. Parsers................................|checkmate-parsers|
+8. Presets................................|checkmate-presets|
+9. Notifications..........................|checkmate-notifications|
+10. Versioning............................|checkmate-versioning|
+11. Testing...............................|checkmate-testing|
+
+==============================================================================
+INTRODUCTION                                              *checkmate-introduction*
+
+checkmate.nvim is a quickfix-first command runner for Neovim.
+
+Flow:
+  command -> parser -> quickfix
+
+It runs checks asynchronously with |vim.system()|, parses output from common
+linters/typecheckers/analyzers, and writes normalized quickfix entries.
+
+Main help tag:                                              *checkmate.nvim*
+
+==============================================================================
+REQUIREMENTS                                              *checkmate-requirements*
+
+- Neovim 0.10+
+
+==============================================================================
+INSTALLATION                                              *checkmate-installation*
+
+With lazy.nvim:
+
+>lua
+  {
+    'your-org/checkmate.nvim',
+    opts = {},
+  }
+<
+
+After installation, docs are available with:
+  :help checkmate.nvim
+
+==============================================================================
+SETUP                                                            *checkmate-setup*
+
+Call setup once:
+
+>lua
+  require('checkmate').setup({
+    open_quickfix = 'on_items',
+    default_errorformat = vim.o.errorformat,
+    commands = true,
+    package_manager = nil,
+    package_manager_priority = { 'pnpm', 'bun', 'npm', 'yarn' },
+    presets = {
+      check = {
+        cmd = 'pnpm run check',
+        parser = 'mixed_lint_json',
+        title = 'project check',
+      },
+    },
+  })
+<
+
+Options:                                          *checkmate-setup-options*
+  open_quickfix                                           (default: 'on_items')
+    One of: 'on_items' | 'always' | 'never'
+
+  default_errorformat                              (default: |'errorformat'|)
+    String used by efm fallback parser.
+
+  commands                                                   (default: true)
+    When true, registers |:Check|, |:CheckScript|, |:CheckPreset|.
+
+  package_manager                                             (default: auto)
+    One of: 'pnpm' | 'bun' | 'npm' | 'yarn' | nil
+
+  package_manager_priority
+    Detection fallback order.
+    Default: { 'pnpm', 'bun', 'npm', 'yarn' }
+
+  presets
+    Table of preset definitions merged with built-ins.
+
+==============================================================================
+COMMANDS                                                      *checkmate-commands*
+
+:Check {shell command}                                           *:Check*
+    Runs any shell command through checkmate.
+    Example: >
+      :Check cargo clippy --message-format=json
+<
+
+:Check @{preset}                                                  *:Check-@*
+    Shorthand for running a preset.
+    Example: >
+      :Check @rust
+<
+
+:CheckScript {script-name}                                   *:CheckScript*
+    Runs package manager script with automatic manager detection.
+    Default parser: mixed_lint_json
+
+:CheckPreset {name}                                           *:CheckPreset*
+    Runs a named preset directly.
+
+==============================================================================
+API                                                                  *checkmate-api*
+
+Require module:
+>lua
+  local check = require('checkmate')
+<
+
+Functions:
+
+check.setup(opts)                                           *checkmate.setup()*
+check.version()                                         *checkmate.version()*
+check.run(cmd, opts?)                                         *checkmate.run()*
+check.run_script(name, opts?)                           *checkmate.run_script()*
+check.run_preset(name, opts?)                           *checkmate.run_preset()*
+check.register_parser(name, fn)                     *checkmate.register_parser()*
+check.register_preset(name, preset)                 *checkmate.register_preset()*
+
+Also available:
+  check.VERSION
+
+run() options:
+  title?: string
+  cwd?: string
+  env?: table<string, string>
+  timeout_ms?: number
+  package_manager?: 'pnpm' | 'bun' | 'npm' | 'yarn'
+  parser?: string | function(ctx): parser_result
+  errorformat?: string
+  open_quickfix?: 'on_items' | 'always' | 'never'
+  on_complete?: function(result)
+
+on_complete(result) fields:
+  cmd, title, code, signal, stdout, stderr, combined,
+  items, parser_used, duration_ms
+
+==============================================================================
+PARSERS                                                          *checkmate-parsers*
+
+Built-in parsers:
+  efm                                                     *checkmate-parser-efm*
+  oxlint_json                                       *checkmate-parser-oxlint_json*
+  eslint_json                                       *checkmate-parser-eslint_json*
+  cargo_json                                         *checkmate-parser-cargo_json*
+  ts_text                                               *checkmate-parser-ts_text*
+  mixed_lint_json                               *checkmate-parser-mixed_lint_json*
+  oxlint                                                   *checkmate-parser-oxlint*
+  eslint_text                                       *checkmate-parser-eslint_text*
+  eslint                                                   *checkmate-parser-eslint*
+
+Parser fallback strategy:
+  1. Explicit parser in opts.parser
+  2. Auto parser by command pattern
+  3. efm fallback parser (uses errorformat)
+
+Custom parser contract:
+  Input ctx:
+    cmd, title, cwd, stdout, stderr, combined, errorformat
+  Return:
+    { items = vim.quickfix.entry[], ok? = boolean, message? = string }
+  Returning nil or ok=false triggers fallback parser.
+
+==============================================================================
+PRESETS                                                          *checkmate-presets*
+
+Built-in presets:
+  oxlint  eslint  clippy  rust  tsc  nuxt
+
+Run preset:
+  :CheckPreset oxlint
+  :Check @rust
+
+Preset fields:
+  cmd: string | function({ package_manager, cwd }): string
+  title?: string
+  parser?: string | function(ctx): parser_result
+  errorformat?: string
+  cwd?: string
+  env?: table<string, string>
+  timeout_ms?: integer
+  open_quickfix?: 'on_items' | 'always' | 'never'
+
+==============================================================================
+NOTIFICATIONS                                            *checkmate-notifications*
+
+checkmate uses |vim.notify()| for:
+  - running spinner
+  - no issues / issues found summaries
+  - parser fallback warnings
+  - execution/parser errors
+
+==============================================================================
+VERSIONING                                                      *checkmate-versioning*
+
+checkmate.nvim uses SemVer with Git tags.
+
+Recommended tag format:
+  vX.Y.Z
+
+Runtime version:
+>
+  :lua print(require('checkmate').VERSION)
+  :lua print(require('checkmate').version())
+<
+
+Release script:
+>
+  ./scripts/release.sh 0.1.1
+<
+This updates VERSION files, runs tests, creates a release commit, and tags it.
+
+==============================================================================
+TESTING                                                          *checkmate-testing*
+
+Run tests:
+>
+  ./scripts/test.sh
+<
+
+==============================================================================
+vim:tw=78:ts=8:noet:ft=help:norl:

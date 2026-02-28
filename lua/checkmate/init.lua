@@ -1,0 +1,150 @@
+local commands = require 'checkmate.commands'
+local parser_registry = require 'checkmate.parsers'
+local presets = require 'checkmate.presets'
+local runner = require 'checkmate.runner'
+local state_mod = require 'checkmate.state'
+local version = require 'checkmate.version'
+
+local M = {}
+M.VERSION = version.current
+
+---@alias checkmate.OpenQuickfixPolicy 'on_items'|'always'|'never'
+
+---@class checkmate.SetupOpts
+---@field open_quickfix? checkmate.OpenQuickfixPolicy
+---@field default_errorformat? string
+---@field commands? boolean
+---@field package_manager? string
+---@field package_manager_priority? string[]
+---@field presets? table<string, checkmate.PresetOpts>
+
+---@class checkmate.RunOpts
+---@field title? string
+---@field cwd? string
+---@field env? table<string, string>
+---@field timeout_ms? integer
+---@field package_manager? string
+---@field parser? string|fun(ctx: checkmate.ParserContext): checkmate.ParserResult|nil
+---@field errorformat? string
+---@field open_quickfix? checkmate.OpenQuickfixPolicy
+---@field on_complete? fun(result: checkmate.RunResult)
+
+---@class checkmate.PresetCmdCtx
+---@field package_manager string
+---@field cwd string
+
+---@class checkmate.PresetOpts
+---@field cmd string|fun(ctx: checkmate.PresetCmdCtx): string
+---@field title? string
+---@field parser? string|fun(ctx: checkmate.ParserContext): checkmate.ParserResult|nil
+---@field errorformat? string
+---@field cwd? string
+---@field env? table<string, string>
+---@field timeout_ms? integer
+---@field open_quickfix? checkmate.OpenQuickfixPolicy
+
+---@class checkmate.ParserContext
+---@field cmd string
+---@field title string
+---@field cwd string
+---@field stdout string
+---@field stderr string
+---@field combined string
+---@field errorformat string
+
+---@class checkmate.ParserResult
+---@field items vim.quickfix.entry[]
+---@field ok? boolean
+---@field message? string
+
+---@class checkmate.RunResult
+---@field cmd string
+---@field title string
+---@field code integer
+---@field signal integer|nil
+---@field stdout string
+---@field stderr string
+---@field combined string
+---@field items vim.quickfix.entry[]
+---@field parser_used string
+---@field duration_ms integer
+
+local state = state_mod.state
+local known_package_managers = state_mod.known_package_managers
+
+---@param cmd string
+---@param opts checkmate.RunOpts|nil
+function M.run(cmd, opts)
+  runner.run(cmd, opts)
+end
+
+---@return string
+function M.version()
+  return M.VERSION
+end
+
+---@param name string
+---@param opts checkmate.RunOpts|nil
+function M.run_script(name, opts)
+  runner.run_script(name, opts)
+end
+
+---@param name string
+---@param opts checkmate.RunOpts|nil
+function M.run_preset(name, opts)
+  runner.run_preset(name, opts)
+end
+
+---@param name string
+---@param parser_fn fun(ctx: checkmate.ParserContext): checkmate.ParserResult|nil
+function M.register_parser(name, parser_fn)
+  if type(name) ~= 'string' or name == '' then
+    return
+  end
+  if type(parser_fn) ~= 'function' then
+    return
+  end
+  state.parsers[name] = parser_fn
+end
+
+---@param name string
+---@param preset_opts checkmate.PresetOpts
+function M.register_preset(name, preset_opts)
+  if type(name) ~= 'string' or name == '' then
+    return
+  end
+  if type(preset_opts) ~= 'table' then
+    return
+  end
+  state.presets[name] = preset_opts
+end
+
+---@param opts checkmate.SetupOpts|nil
+function M.setup(opts)
+  opts = opts or {}
+
+  parser_registry.register_builtin_parsers(state)
+  presets.register_builtin_presets(state)
+
+  state.open_quickfix = opts.open_quickfix or state.open_quickfix
+  state.default_errorformat = opts.default_errorformat or state.default_errorformat
+  state.commands = opts.commands ~= false
+  if type(opts.package_manager) == 'string' and known_package_managers[opts.package_manager] then
+    state.package_manager = opts.package_manager
+  end
+  if type(opts.package_manager_priority) == 'table' and #opts.package_manager_priority > 0 then
+    state.package_manager_priority = opts.package_manager_priority
+  end
+
+  if type(opts.presets) == 'table' then
+    for name, preset in pairs(opts.presets) do
+      M.register_preset(name, preset)
+    end
+  end
+
+  if state.commands then
+    commands.register(state, M)
+  end
+end
+
+return M
