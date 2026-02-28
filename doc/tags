@@ -5,6 +5,7 @@
 checkmate-api	checkmate.txt	/*checkmate-api*
 checkmate-commands	checkmate.txt	/*checkmate-commands*
 checkmate-contents	checkmate.txt	/*checkmate-contents*
+checkmate-health	checkmate.txt	/*checkmate-health*
 checkmate-installation	checkmate.txt	/*checkmate-installation*
 checkmate-introduction	checkmate.txt	/*checkmate-introduction*
 checkmate-notifications	checkmate.txt	/*checkmate-notifications*

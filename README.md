@@ -35,6 +35,12 @@ This keeps `checkmate.nvim` simple: one job, one output target (quickfix).
 
 - Neovim `0.10+` (uses `vim.system` and modern `vim.fs` APIs)
 
+## Health Check
+
+```vim
+:checkhealth checkmate
+```
+
 ## What This Plugin Does Not Do
 
 `checkmate.nvim` does not install or configure linters/typecheckers/analyzers for you.
@@ -295,6 +301,14 @@ Run the built-in parser/registration tests with headless Neovim:
 ```bash
 ./scripts/test.sh
 ```
+
+## Contributing
+
+See [CONTRIBUTING.md](./CONTRIBUTING.md) for development workflow and release steps.
+
+## Changelog
+
+See [CHANGELOG.md](./CHANGELOG.md).
 
 ## Design Principles
 

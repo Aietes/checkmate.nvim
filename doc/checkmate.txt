@@ -12,8 +12,9 @@ CONTENTS                                                  *checkmate-contents*
 7. Parsers................................|checkmate-parsers|
 8. Presets................................|checkmate-presets|
 9. Notifications..........................|checkmate-notifications|
-10. Versioning............................|checkmate-versioning|
-11. Testing...............................|checkmate-testing|
+10. Health................................|checkmate-health|
+11. Versioning............................|checkmate-versioning|
+12. Testing...............................|checkmate-testing|
 
 ==============================================================================
 INTRODUCTION                                              *checkmate-introduction*
@@ -202,6 +203,20 @@ checkmate uses |vim.notify()| for:
   - no issues / issues found summaries
   - parser fallback warnings
   - execution/parser errors
+
+==============================================================================
+HEALTH                                                            *checkmate-health*
+
+Run:
+>
+  :checkhealth checkmate
+<
+
+Health output includes:
+  - Neovim version compatibility
+  - shell configuration
+  - package manager executables on PATH
+  - parser/preset registration state in current session
 
 ==============================================================================
 VERSIONING                                                      *checkmate-versioning*
