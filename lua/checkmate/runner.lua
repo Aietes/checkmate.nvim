@@ -222,6 +222,12 @@ local function is_command_not_found(code, output)
   return false
 end
 
+---@param item vim.quickfix.entry
+---@return boolean
+local function has_file_target(item)
+  return type(item.filename) == 'string' and item.filename ~= ''
+end
+
 ---@param cmd string
 ---@param opts checkmate.RunOpts|nil
 function M.run(cmd, opts)
@@ -276,6 +282,16 @@ function M.run(cmd, opts)
       local items = parser_result.items or {}
       local duration_ms = math.floor((vim.uv.hrtime() - started_at) / 1e6)
       local command_missing = is_command_not_found(res.code, combined)
+
+      if parser_used == 'efm' then
+        local filtered = {}
+        for _, item in ipairs(items) do
+          if has_file_target(item) then
+            filtered[#filtered + 1] = item
+          end
+        end
+        items = filtered
+      end
 
       if command_missing then
         items = {}
