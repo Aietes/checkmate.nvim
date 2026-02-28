@@ -83,7 +83,11 @@ EOF
 ./scripts/test.sh
 
 git add VERSION lua/checkmate/version.lua
-git commit -m "chore(release): v$VERSION"
+if git diff --cached --quiet; then
+  echo "No version file changes to commit; tagging current HEAD."
+else
+  git commit -m "chore(release): v$VERSION"
+fi
 git tag "$TAG"
 
 echo "Release commit and tag created."
