@@ -61,7 +61,7 @@ Each project is expected to provide its own tools and configuration (for example
 
 ```lua
 {
-  'your-org/checkmate.nvim',
+  'Aietes/checkmate.nvim',
   -- optional: pin to a release tag
   -- version = '*',
   opts = {},
