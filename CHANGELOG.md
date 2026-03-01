@@ -7,7 +7,11 @@ The format follows Keep a Changelog and this project uses Semantic Versioning.
 ## [Unreleased]
 
 ### Added
-- No unreleased entries yet.
+- Built-in `selene` parser with Json2 and quiet-output support.
+- Built-in `selene` preset and `@lua` preset now using selene by default.
+
+### Changed
+- Nix dev environment now provides `selene` for Lua linting.
 
 ## [0.1.4] - 2026-03-01
 

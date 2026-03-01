@@ -1,4 +1,4 @@
-*checkmate.txt*        checkmate.nvim help        Last change: 2026-02-27
+*checkmate.txt*        checkmate.nvim help        Last change: 2026-03-01
 
 ==============================================================================
 CONTENTS                                                  *checkmate-contents*
@@ -157,6 +157,8 @@ Built-in parsers:
   oxlint_json                                       *checkmate-parser-oxlint_json*
   eslint_json                                       *checkmate-parser-eslint_json*
   cargo_json                                         *checkmate-parser-cargo_json*
+  selene                                                 *checkmate-parser-selene*
+  selene_json2                                     *checkmate-parser-selene_json2*
   luacheck                                           *checkmate-parser-luacheck*
   luacheck_text                                 *checkmate-parser-luacheck_text*
   ts_text                                               *checkmate-parser-ts_text*
@@ -181,7 +183,7 @@ Custom parser contract:
 PRESETS                                                          *checkmate-presets*
 
 Built-in presets:
-  oxlint  eslint  clippy  rust  tsc  nuxt  lua  luacheck
+  oxlint  eslint  clippy  rust  tsc  nuxt  lua  selene  luacheck
 
 Run preset:
   :CheckPreset oxlint

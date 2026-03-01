@@ -112,13 +112,15 @@ Behavior:
 2. `oxlint_json`
 3. `eslint_json`
 4. `cargo_json` (`cargo check` / `cargo clippy` with JSON output)
-5. `luacheck` (luacheck text diagnostics)
-6. `luacheck_text` (luacheck text parser alias)
-7. `ts_text` (parses TypeScript/Nuxt style text diagnostics)
-8. `mixed_lint_json` (merges `ts_text` diagnostics with embedded ESLint/Oxlint JSON payloads from mixed command output)
-9. `oxlint` (json first, then text fallback)
-10. `eslint_text` (eslint text format fallback)
-11. `eslint` (json first, then text fallback)
+5. `selene` (selene Json2/quiet diagnostics)
+6. `selene_json2` (selene Json2 parser)
+7. `luacheck` (luacheck text diagnostics)
+8. `luacheck_text` (luacheck text parser alias)
+9. `ts_text` (parses TypeScript/Nuxt style text diagnostics)
+10. `mixed_lint_json` (merges `ts_text` diagnostics with embedded ESLint/Oxlint JSON payloads from mixed command output)
+11. `oxlint` (json first, then text fallback)
+12. `eslint_text` (eslint text format fallback)
+13. `eslint` (json first, then text fallback)
 
 ## Preset Contract
 
@@ -140,8 +142,9 @@ Built-in presets:
 4. `rust`: `cargo check --message-format=json`, parser `cargo_json`
 5. `tsc`: manager-aware `tsc --noEmit --pretty false`, parser `ts_text`
 6. `nuxt`: manager-aware `nuxt typecheck`, parser `ts_text`
-7. `lua`: `luacheck lua tests`, parser `luacheck`
-8. `luacheck`: `luacheck lua tests`, parser `luacheck`
+7. `lua`: `selene --display-style Json2 --allow-warnings lua tests`, parser `selene`
+8. `selene`: `selene --display-style Json2 --allow-warnings lua tests`, parser `selene`
+9. `luacheck`: `luacheck lua tests`, parser `luacheck`
 
 Manager-aware JS/TS command mapping:
 

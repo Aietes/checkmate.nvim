@@ -12,12 +12,13 @@ Get project-wide diagnostics from linters, typecheckers, and analyzers in one co
 - Built-in parsers for:
   - `oxlint` JSON and text output
   - `eslint` JSON and text output
+  - `selene` Json2 and quiet output
   - `luacheck` text diagnostics
   - `cargo --message-format=json` diagnostics
   - TypeScript/Nuxt text diagnostics
   - `errorformat` fallback for generic tools
 - Mixed-output parser for scripts that combine multiple tools (for example `nuxt typecheck;oxlint;eslint`)
-- Built-in command presets (`oxlint`, `eslint`, `clippy`, `rust`, `tsc`, `nuxt`, `lua`)
+- Built-in command presets (`oxlint`, `eslint`, `clippy`, `rust`, `tsc`, `nuxt`, `lua`, `selene`, `luacheck`)
 - Native `vim.notify` progress and completion messages
 
 ## Scope and Rationale
@@ -28,7 +29,7 @@ Get project-wide diagnostics from linters, typecheckers, and analyzers in one co
 - typecheckers
 - analyzers
 
-Formatters and auto-fix workflows (for example Prettier/Biome fix flows) are intentionally out of scope, since they are typically handled by formatter orchestration tools such as `conform.nvim`.
+Per-buffer linting and formatter/auto-fix workflows are intentionally out of scope, since they are typically handled by tools such as `nvim-lint` and `conform.nvim`.
 
 This keeps `checkmate.nvim` simple: one job, one output target (quickfix).
 
@@ -150,10 +151,14 @@ Why this pattern:
 - `nuxt`: Nuxt-specific typecheck command for Vue/Nuxt projects.  
   Example command: `pnpm exec nuxt typecheck`  
   https://nuxt.com/docs/api/commands/typecheck
-- `lua`: Lua diagnostics via `luacheck`.  
+- `lua`: Lua diagnostics via `selene` (default Lua preset).  
+  Example command: `selene --display-style Json2 --allow-warnings lua tests`  
+  https://kampfkarren.github.io/selene/
+  Uses project `selene.toml` + `vim.toml` so Neovim `vim.*` globals are recognized.
+- `selene`: Explicit selene preset (same command as `lua`).
+- `luacheck`: Optional luacheck preset for luacheck-style output.  
   Example command: `luacheck lua tests`  
   https://github.com/lunarmodules/luacheck
-  Uses project `.luacheckrc` (included) to recognize Neovim `vim.*` globals.
 
 ## Configuration
 
