@@ -9,6 +9,12 @@ The format follows Keep a Changelog and this project uses Semantic Versioning.
 ### Added
 - No unreleased entries yet.
 
+## [0.1.3] - 2026-03-01
+
+### Changed
+- Aligned release notes with actual git tags and release commits.
+- Release script now requires a matching changelog header (`## [X.Y.Z] - YYYY-MM-DD`) before creating a tag.
+
 ## [0.1.2] - 2026-03-01
 
 ### Added
