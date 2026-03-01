@@ -134,7 +134,7 @@ Why this pattern:
 
 - `oxlint`: Fast JavaScript/TypeScript linter from the Oxc project.  
   Example command: `pnpm exec oxlint --format json .`  
-  https://oxc.rs/docs/guide/usage/linter/oxlint.html
+  https://oxc.rs/docs/guide/usage/linter.html
 - `eslint`: Widely used JavaScript/TypeScript linter with extensive plugin ecosystem.  
   Example command: `pnpm exec eslint -f json .`  
   https://eslint.org/
