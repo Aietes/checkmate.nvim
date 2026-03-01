@@ -9,6 +9,16 @@ The format follows Keep a Changelog and this project uses Semantic Versioning.
 ### Added
 - No unreleased entries yet.
 
+## [0.1.4] - 2026-03-01
+
+### Changed
+- README intro now clearly positions `checkmate.nvim` as a project-wide diagnostics aggregator that complements buffer-focused tools (`nvim-lspconfig`, `nvim-lint`, `none-ls.nvim`, `conform.nvim`).
+- Contract documentation now matches implemented parser, preset, and runtime messaging behavior.
+- CI workflow now uses the correct `action-setup-vim` inputs for stable/nightly matrix testing.
+
+### Fixed
+- `luacheck` parser now treats clean output (`0 warnings / 0 errors`) as a successful parse with zero quickfix items instead of incorrectly falling back to `efm`.
+
 ## [0.1.3] - 2026-03-01
 
 ### Changed
