@@ -1,5 +1,5 @@
 local M = {}
 
-M.current = '0.1.4'
+M.current = '0.1.5'
 
 return M
