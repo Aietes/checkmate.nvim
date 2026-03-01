@@ -112,11 +112,13 @@ Behavior:
 2. `oxlint_json`
 3. `eslint_json`
 4. `cargo_json` (`cargo check` / `cargo clippy` with JSON output)
-5. `ts_text` (parses TypeScript/Nuxt style text diagnostics)
-6. `mixed_lint_json` (merges `ts_text` diagnostics with embedded ESLint/Oxlint JSON payloads from mixed command output)
-7. `oxlint` (json first, then text fallback)
-8. `eslint_text` (eslint text format fallback)
-9. `eslint` (json first, then text fallback)
+5. `luacheck` (luacheck text diagnostics)
+6. `luacheck_text` (luacheck text parser alias)
+7. `ts_text` (parses TypeScript/Nuxt style text diagnostics)
+8. `mixed_lint_json` (merges `ts_text` diagnostics with embedded ESLint/Oxlint JSON payloads from mixed command output)
+9. `oxlint` (json first, then text fallback)
+10. `eslint_text` (eslint text format fallback)
+11. `eslint` (json first, then text fallback)
 
 ## Preset Contract
 
@@ -133,11 +135,13 @@ Preset fields:
 Built-in presets:
 
 1. `oxlint`: manager-aware command, parser `oxlint`
-2. `eslint`: manager-aware command, parser `eslint_json`
+2. `eslint`: manager-aware command, parser `eslint`
 3. `clippy`: `cargo clippy --message-format=json`, parser `cargo_json`
 4. `rust`: `cargo check --message-format=json`, parser `cargo_json`
 5. `tsc`: manager-aware `tsc --noEmit --pretty false`, parser `ts_text`
 6. `nuxt`: manager-aware `nuxt typecheck`, parser `ts_text`
+7. `lua`: `luacheck lua tests`, parser `luacheck`
+8. `luacheck`: `luacheck lua tests`, parser `luacheck`
 
 Manager-aware JS/TS command mapping:
 
@@ -163,10 +167,13 @@ Always use `vim.notify`:
 - `WARN`
   - `check: parser failed, used efm fallback (<title>)`
   - `check: <n> issue(s) (<title>)`
-  - `check: exited <code> with no parseable issues (<title>)`
+  - `check: failed (<title>), exit <code>: <reason>`
 - `ERROR`
   - `check: failed to run (<title>): <reason>`
   - parser exception details (short, single-line)
+
+Command-not-found behavior:
+- If command execution returns "command not found", parser/fallback is skipped and quickfix stays empty.
 
 Messages are intentionally brief and status-focused. Full command output remains in the parser context and completion result.
 
