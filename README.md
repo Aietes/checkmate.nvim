@@ -12,11 +12,12 @@ Native Neovim command runner for quickfix-first code checks.
 - Built-in parsers for:
   - `oxlint` JSON and text output
   - `eslint` JSON and text output
+  - `luacheck` text diagnostics
   - `cargo --message-format=json` diagnostics
   - TypeScript/Nuxt text diagnostics
   - `errorformat` fallback for generic tools
 - Mixed-output parser for scripts that combine multiple tools (for example `nuxt typecheck;oxlint;eslint`)
-- Built-in command presets (`oxlint`, `eslint`, `clippy`, `rust`, `tsc`, `nuxt`)
+- Built-in command presets (`oxlint`, `eslint`, `clippy`, `rust`, `tsc`, `nuxt`, `lua`)
 - Native `vim.notify` progress and completion messages
 
 ## Scope and Rationale
@@ -98,6 +99,7 @@ Examples:
 :Check @rust
 :Check "pnpm exec nuxt typecheck"
 :Check "cargo clippy --message-format=json"
+:Check @lua
 :CheckScript check
 :CheckPreset tsc
 ```
@@ -148,6 +150,10 @@ Why this pattern:
 - `nuxt`: Nuxt-specific typecheck command for Vue/Nuxt projects.  
   Example command: `pnpm exec nuxt typecheck`  
   https://nuxt.com/docs/api/commands/typecheck
+- `lua`: Lua diagnostics via `luacheck`.  
+  Example command: `luacheck lua tests`  
+  https://github.com/lunarmodules/luacheck
+  Uses project `.luacheckrc` (included) to recognize Neovim `vim.*` globals.
 
 ## Configuration
 

@@ -4,6 +4,8 @@ return function(t, ctx)
     'oxlint_json',
     'eslint_json',
     'cargo_json',
+    'luacheck',
+    'luacheck_text',
     'ts_text',
     'mixed_lint_json',
     'oxlint',

@@ -1,6 +1,7 @@
 local cargo = require 'checkmate.parsers.cargo'
 local efm = require 'checkmate.parsers.efm'
 local eslint = require 'checkmate.parsers.eslint'
+local luacheck = require 'checkmate.parsers.luacheck'
 local mixed = require 'checkmate.parsers.mixed'
 local oxlint = require 'checkmate.parsers.oxlint'
 local ts = require 'checkmate.parsers.ts'
@@ -18,6 +19,8 @@ function M.register_builtin_parsers(state)
   state.parsers.eslint_text = eslint.parse_text
   state.parsers.eslint_json = eslint.parse_json
   state.parsers.cargo_json = cargo.parse_json
+  state.parsers.luacheck = luacheck.parse
+  state.parsers.luacheck_text = luacheck.parse_text
   state.parsers.ts_text = ts.parse
   state.parsers.mixed_lint_json = function(ctx)
     return mixed.parse(ctx, {

@@ -14,6 +14,8 @@ checkmate-parser-efm	checkmate.txt	/*checkmate-parser-efm*
 checkmate-parser-eslint	checkmate.txt	/*checkmate-parser-eslint*
 checkmate-parser-eslint_json	checkmate.txt	/*checkmate-parser-eslint_json*
 checkmate-parser-eslint_text	checkmate.txt	/*checkmate-parser-eslint_text*
+checkmate-parser-luacheck	checkmate.txt	/*checkmate-parser-luacheck*
+checkmate-parser-luacheck_text	checkmate.txt	/*checkmate-parser-luacheck_text*
 checkmate-parser-mixed_lint_json	checkmate.txt	/*checkmate-parser-mixed_lint_json*
 checkmate-parser-oxlint	checkmate.txt	/*checkmate-parser-oxlint*
 checkmate-parser-oxlint_json	checkmate.txt	/*checkmate-parser-oxlint_json*

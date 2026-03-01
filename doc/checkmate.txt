@@ -157,6 +157,8 @@ Built-in parsers:
   oxlint_json                                       *checkmate-parser-oxlint_json*
   eslint_json                                       *checkmate-parser-eslint_json*
   cargo_json                                         *checkmate-parser-cargo_json*
+  luacheck                                           *checkmate-parser-luacheck*
+  luacheck_text                                 *checkmate-parser-luacheck_text*
   ts_text                                               *checkmate-parser-ts_text*
   mixed_lint_json                               *checkmate-parser-mixed_lint_json*
   oxlint                                                   *checkmate-parser-oxlint*
@@ -179,7 +181,7 @@ Custom parser contract:
 PRESETS                                                          *checkmate-presets*
 
 Built-in presets:
-  oxlint  eslint  clippy  rust  tsc  nuxt
+  oxlint  eslint  clippy  rust  tsc  nuxt  lua  luacheck
 
 Run preset:
   :CheckPreset oxlint
