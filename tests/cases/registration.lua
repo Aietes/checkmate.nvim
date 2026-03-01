@@ -6,6 +6,8 @@ return function(t, ctx)
     'cargo_json',
     'luacheck',
     'luacheck_text',
+    'selene',
+    'selene_json2',
     'ts_text',
     'mixed_lint_json',
     'oxlint',

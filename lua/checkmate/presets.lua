@@ -57,9 +57,14 @@ function M.register_builtin_presets(state)
     parser = 'ts_text',
   }
   state.presets.lua = {
-    cmd = 'luacheck lua tests',
-    title = 'luacheck',
-    parser = 'luacheck',
+    cmd = 'selene --display-style Json2 --allow-warnings lua tests',
+    title = 'selene',
+    parser = 'selene',
+  }
+  state.presets.selene = {
+    cmd = 'selene --display-style Json2 --allow-warnings lua tests',
+    title = 'selene',
+    parser = 'selene',
   }
   state.presets.luacheck = {
     cmd = 'luacheck lua tests',

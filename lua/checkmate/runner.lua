@@ -20,6 +20,9 @@ local function auto_parser_for_command(cmd)
   if lower:match 'luacheck' then
     return 'luacheck'
   end
+  if lower:match 'selene' then
+    return 'selene'
+  end
   if lower:match 'cargo' and lower:match '%-%-message%-format%s*=%s*json' then
     return 'cargo_json'
   end
