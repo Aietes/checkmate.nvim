@@ -1,8 +1,8 @@
 # checkmate.nvim
 
-Native Neovim command runner for quickfix-first code checks.
+Get project-wide diagnostics from linters, typecheckers, and analyzers in one consolidated quickfix list.
 
-`checkmate.nvim` runs shell commands asynchronously, parses linter/typecheck/analyzer output, and populates the quickfix list with normalized entries.
+`checkmate.nvim` runs shell commands asynchronously, parses linter/typecheck/analyzer output, and populates the quickfix list with normalized entries. Neovim already has great tools for diagnostics in open buffers, like `nvim-lspconfig` (LSP), `nvim-lint`, `none-ls.nvim`, and formatter flows with `conform.nvim`; the gap is project-wide checking across all files with one consolidated quickfix list, which is especially useful in team collaboration and pre-PR validation.
 
 ## Features
 
@@ -22,7 +22,7 @@ Native Neovim command runner for quickfix-first code checks.
 
 ## Scope and Rationale
 
-`checkmate.nvim` is intentionally focused on checks that produce diagnostics:
+`checkmate.nvim` is intentionally focused on checks that produce diagnostics across a project:
 
 - linters
 - typecheckers
