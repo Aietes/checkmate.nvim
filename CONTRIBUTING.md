@@ -28,12 +28,15 @@ Clone and run tests:
 4. Update docs when API/commands/config change:
    - `README.md`
    - `doc/checkmate.txt`
+   - `CHANGELOG.md` (for user-visible changes)
 5. Regenerate help tags:
    - `nvim --headless -u NONE "+helptags doc" +qa`
 
 ## Release Process
 
 Releases use SemVer + git tags (`vX.Y.Z`).
+`scripts/release.sh` requires a matching changelog section:
+`## [X.Y.Z] - YYYY-MM-DD`
 
 Create a release:
 

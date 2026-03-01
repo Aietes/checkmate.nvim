@@ -38,6 +38,11 @@ ROOT_DIR=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
 cd "$ROOT_DIR"
 
 TAG="v$VERSION"
+CHANGELOG_HEADER="## [$VERSION] - "
+
+has_changelog_header() {
+  grep -Fq "$CHANGELOG_HEADER" CHANGELOG.md
+}
 
 if [ "$DRY_RUN" = "--dry-run" ]; then
   echo "Releasing checkmate.nvim $VERSION"
@@ -46,6 +51,10 @@ if [ "$DRY_RUN" = "--dry-run" ]; then
   fi
   if git rev-parse -q --verify "refs/tags/$TAG" >/dev/null; then
     echo "[dry-run] Note: tag '$TAG' already exists (real release would fail)"
+  fi
+  if ! has_changelog_header; then
+    echo "[dry-run] Note: missing changelog section '$CHANGELOG_HEADER...'"
+    echo "[dry-run]       Add a section like: ## [$VERSION] - $(date +%Y-%m-%d)"
   fi
   echo "[dry-run] Would write VERSION"
   echo "[dry-run] Would write lua/checkmate/version.lua"
@@ -65,6 +74,12 @@ fi
 
 if git rev-parse -q --verify "refs/tags/$TAG" >/dev/null; then
   echo "error: tag '$TAG' already exists"
+  exit 1
+fi
+
+if ! has_changelog_header; then
+  echo "error: CHANGELOG.md is missing section '$CHANGELOG_HEADER...'"
+  echo "Add a section like: ## [$VERSION] - $(date +%Y-%m-%d)"
   exit 1
 fi
 
