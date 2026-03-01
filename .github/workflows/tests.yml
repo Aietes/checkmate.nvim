@@ -16,6 +16,7 @@ jobs:
       - name: Setup Neovim
         uses: rhysd/action-setup-vim@v1
         with:
-          neovim: ${{ matrix.neovim }}
+          neovim: true
+          version: ${{ matrix.neovim }}
       - name: Run tests
         run: ./scripts/test.sh
