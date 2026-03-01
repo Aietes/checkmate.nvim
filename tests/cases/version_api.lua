@@ -1,4 +1,4 @@
-return function(t, _ctx)
+return function(t)
   local checkmate = require 'checkmate'
   local version_mod = require 'checkmate.version'
   local version_file = io.open('VERSION', 'r')

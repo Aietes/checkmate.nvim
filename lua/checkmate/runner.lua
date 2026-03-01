@@ -17,6 +17,9 @@ local function auto_parser_for_command(cmd)
   if lower:match 'eslint' then
     return 'eslint'
   end
+  if lower:match 'luacheck' then
+    return 'luacheck'
+  end
   if lower:match 'cargo' and lower:match '%-%-message%-format%s*=%s*json' then
     return 'cargo_json'
   end
@@ -27,7 +30,7 @@ local function auto_parser_for_command(cmd)
 end
 
 ---@param title string
----@param items vim.quickfix.entry[]
+---@param items table[]
 ---@param open_policy checkmate.OpenQuickfixPolicy
 local function apply_quickfix(title, items, open_policy)
   vim.fn.setqflist({}, 'r', { title = title, items = items })
@@ -40,18 +43,22 @@ end
 ---@param opts checkmate.RunOpts|nil
 ---@return string
 local function resolve_cwd(cmd, opts)
+  local function current_dir()
+    return vim.uv.cwd() or '.'
+  end
+
   if opts and opts.cwd and opts.cwd ~= '' then
     return opts.cwd
   end
   if cmd:match 'cargo' then
     local bufname = vim.api.nvim_buf_get_name(0)
-    local start_path = (type(bufname) == 'string' and bufname ~= '') and bufname or vim.uv.cwd()
+    local start_path = (type(bufname) == 'string' and bufname ~= '') and bufname or current_dir()
     local buffer_root = vim.fs.root(start_path, { 'Cargo.toml' })
     if buffer_root then
       return buffer_root
     end
 
-    local cwd = vim.uv.cwd()
+    local cwd = current_dir()
     local cwd_root = vim.fs.root(cwd, { 'Cargo.toml' })
     if cwd_root then
       return cwd_root
@@ -62,12 +69,12 @@ local function resolve_cwd(cmd, opts)
       return vim.fs.dirname(nested[1])
     end
 
-    return vim.fs.root(0, { '.git' }) or cwd
+    return vim.fs.root(0, { '.git' }) or cwd or '.'
   end
   if cmd:match 'pnpm' or cmd:match 'npm' or cmd:match 'yarn' or cmd:match 'bun' then
-    return vim.fs.root(0, { 'package.json', '.git' }) or vim.uv.cwd()
+    return vim.fs.root(0, { 'package.json', '.git' }) or current_dir()
   end
-  return vim.fs.root(0, { '.git' }) or vim.uv.cwd()
+  return vim.fs.root(0, { '.git' }) or current_dir()
 end
 
 ---@param path string
@@ -155,17 +162,23 @@ end
 ---@param cmd string
 ---@param opts checkmate.RunOpts
 ---@return string|nil
----@return fun(ctx: checkmate.ParserContext): checkmate.ParserResult|nil
+---@return (fun(ctx: checkmate.ParserContext): checkmate.ParserResult)|nil
 local function resolve_explicit_parser(cmd, opts)
-  if type(opts.parser) == 'function' then
-    return 'custom', opts.parser
+  local parser_opt = opts.parser
+
+  if type(parser_opt) == 'function' then
+    ---@type fun(ctx: checkmate.ParserContext): checkmate.ParserResult|nil
+    local parser_fn = parser_opt
+    return 'custom', parser_fn
   end
-  if type(opts.parser) == 'string' then
-    local parser = state.parsers[opts.parser]
+
+  if type(parser_opt) == 'string' then
+    local parser = state.parsers[parser_opt]
     if parser then
-      return opts.parser, parser
+      local parser_name = parser_opt
+      return parser_name, parser
     end
-    vim.notify(string.format('check: unknown parser "%s", using fallback', opts.parser), vim.log.levels.WARN)
+    vim.notify(string.format('check: unknown parser "%s", using fallback', parser_opt), vim.log.levels.WARN)
     return nil, nil
   end
 
@@ -176,8 +189,8 @@ local function resolve_explicit_parser(cmd, opts)
   return nil, nil
 end
 
----@param parser_name string
----@param parser_fn fun(ctx: checkmate.ParserContext): checkmate.ParserResult|nil
+---@param parser_name string|nil
+---@param parser_fn (fun(ctx: checkmate.ParserContext): checkmate.ParserResult|nil)|nil
 ---@param ctx checkmate.ParserContext
 ---@return checkmate.ParserResult
 ---@return string
@@ -222,7 +235,7 @@ local function is_command_not_found(code, output)
   return false
 end
 
----@param item vim.quickfix.entry
+---@param item table
 ---@return boolean
 local function has_file_target(item)
   return type(item.filename) == 'string' and item.filename ~= ''
@@ -278,10 +291,16 @@ function M.run(cmd, opts)
         errorformat = errorformat,
       }
 
-      local parser_result, parser_used = parse_with_fallback(parser_name, parser_fn, ctx)
-      local items = parser_result.items or {}
       local duration_ms = math.floor((vim.uv.hrtime() - started_at) / 1e6)
       local command_missing = is_command_not_found(res.code, combined)
+      local parser_used = 'efm'
+      local items = {}
+
+      if not command_missing then
+        local parser_result
+        parser_result, parser_used = parse_with_fallback(parser_name, parser_fn, ctx)
+        items = parser_result.items or {}
+      end
 
       if parser_used == 'efm' then
         local filtered = {}
@@ -360,7 +379,7 @@ function M.run_script(name, opts)
     return
   end
   opts = opts or {}
-  local cwd = opts.cwd or (vim.fs.root(0, { 'package.json', '.git' }) or vim.uv.cwd())
+  local cwd = opts.cwd or (vim.fs.root(0, { 'package.json', '.git' }) or vim.uv.cwd() or '.')
   local package_manager = resolve_package_manager(cwd, opts.package_manager)
   if not package_manager then
     vim.notify('check: no package manager found (pnpm/bun/npm/yarn)', vim.log.levels.ERROR)
@@ -381,7 +400,7 @@ function M.run_preset(name, opts)
     return
   end
 
-  local cwd = (opts and opts.cwd) or preset.cwd or (vim.fs.root(0, { 'package.json', '.git' }) or vim.uv.cwd())
+  local cwd = (opts and opts.cwd) or preset.cwd or (vim.fs.root(0, { 'package.json', '.git' }) or vim.uv.cwd() or '.')
   local package_manager = resolve_package_manager(cwd, opts and opts.package_manager or nil)
   if not package_manager then
     package_manager = 'pnpm'

@@ -3,13 +3,15 @@ local M = {}
 ---@param text string|nil
 ---@return string
 function M.strip_ansi(text)
-  return (text or ''):gsub('\27%[[0-9;?]*[ -/]*[@-~]', '')
+  local stripped = (text or ''):gsub('\27%[[0-9;?]*[ -/]*[@-~]', '')
+  return stripped
 end
 
 ---@param text string
 ---@return string
 function M.strip_newlines(text)
-  return text:gsub('%s+', ' '):gsub('^%s+', ''):gsub('%s+$', '')
+  local normalized = text:gsub('%s+', ' '):gsub('^%s+', ''):gsub('%s+$', '')
+  return normalized
 end
 
 ---@param cmd string
@@ -36,7 +38,8 @@ end
 ---@param text string
 ---@return string
 function M.normalize_json_like(text)
-  return text:gsub(',%s*([}%]])', '%1')
+  local normalized = text:gsub(',%s*([}%]])', '%1')
+  return normalized
 end
 
 ---@param text string
@@ -140,9 +143,9 @@ local function is_absolute_path(path)
   return false
 end
 
----@param item vim.quickfix.entry
+---@param item table
 ---@param base_cwd string|nil
----@return vim.quickfix.entry
+---@return table
 local function normalize_item(item, base_cwd)
   local filename = item.filename
   if filename and filename ~= '' then
@@ -165,8 +168,8 @@ local function normalize_item(item, base_cwd)
 end
 
 ---@param source string
----@param item vim.quickfix.entry
----@return vim.quickfix.entry
+---@param item table
+---@return table
 function M.tag_item_source(source, item)
   local text = item.text or ''
   item.text = string.format('[%s] %s', source, text)
@@ -174,9 +177,9 @@ function M.tag_item_source(source, item)
   return item
 end
 
----@param items vim.quickfix.entry[]
+---@param items table[]
 ---@param base_cwd string|nil
----@return vim.quickfix.entry[]
+---@return table[]
 function M.normalize_items(items, base_cwd)
   local normalized = {}
   for _, item in ipairs(items) do

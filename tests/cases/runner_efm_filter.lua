@@ -1,7 +1,8 @@
-return function(t, _ctx)
+return function(t)
   local checkmate = require 'checkmate'
 
   local done = false
+  ---@type checkmate.RunResult|nil
   local result = nil
 
   checkmate.run("printf 'oops\\n'", {
@@ -20,6 +21,11 @@ return function(t, _ctx)
 
   t.expect(ok, 'runner efm filter test should complete')
   t.expect(type(result) == 'table', 'runner efm filter test should return result')
-  t.expect_eq(result.parser_used, 'efm', 'runner efm filter test should use efm parser')
-  t.expect_eq(#result.items, 0, 'runner should ignore efm entries without file target')
+  local run_result = result
+  t.expect(type(run_result) == 'table', 'runner efm filter test should return typed result')
+  if not run_result then
+    error('runner efm filter test expected run_result', 0)
+  end
+  t.expect_eq(run_result.parser_used, 'efm', 'runner efm filter test should use efm parser')
+  t.expect_eq(#run_result.items, 0, 'runner should ignore efm entries without file target')
 end

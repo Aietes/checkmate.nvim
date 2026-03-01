@@ -24,7 +24,7 @@ M.VERSION = version.current
 ---@field env? table<string, string>
 ---@field timeout_ms? integer
 ---@field package_manager? string
----@field parser? string|fun(ctx: checkmate.ParserContext): checkmate.ParserResult|nil
+---@field parser? string|(fun(ctx: checkmate.ParserContext): checkmate.ParserResult)|nil
 ---@field errorformat? string
 ---@field open_quickfix? checkmate.OpenQuickfixPolicy
 ---@field on_complete? fun(result: checkmate.RunResult)
@@ -36,7 +36,7 @@ M.VERSION = version.current
 ---@class checkmate.PresetOpts
 ---@field cmd string|fun(ctx: checkmate.PresetCmdCtx): string
 ---@field title? string
----@field parser? string|fun(ctx: checkmate.ParserContext): checkmate.ParserResult|nil
+---@field parser? string|(fun(ctx: checkmate.ParserContext): checkmate.ParserResult)|nil
 ---@field errorformat? string
 ---@field cwd? string
 ---@field env? table<string, string>
@@ -53,7 +53,7 @@ M.VERSION = version.current
 ---@field errorformat string
 
 ---@class checkmate.ParserResult
----@field items vim.quickfix.entry[]
+---@field items table[]
 ---@field ok? boolean
 ---@field message? string
 
@@ -65,7 +65,7 @@ M.VERSION = version.current
 ---@field stdout string
 ---@field stderr string
 ---@field combined string
----@field items vim.quickfix.entry[]
+---@field items table[]
 ---@field parser_used string
 ---@field duration_ms integer
 

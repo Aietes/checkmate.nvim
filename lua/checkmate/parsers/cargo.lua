@@ -2,6 +2,14 @@ local util = require 'checkmate.util'
 
 local M = {}
 
+---@class checkmate.CargoSpan
+---@field file_name? string
+---@field line_start? integer
+---@field column_start? integer
+---@field line_end? integer
+---@field column_end? integer
+---@field is_primary? boolean
+
 ---@param ctx checkmate.ParserContext
 ---@return checkmate.ParserResult|nil
 function M.parse_json(ctx)
@@ -30,17 +38,23 @@ function M.parse_json(ctx)
               end
             end
             local filename = primary and primary.file_name or nil
-            if type(filename) == 'string' and filename ~= '' then
+            if type(filename) == 'string' and filename ~= '' and type(primary) == 'table' then
+              ---@type checkmate.CargoSpan
+              local primary_span = primary
+              local line_start = tonumber(primary_span.line_start)
+              local col_start = tonumber(primary_span.column_start)
+              local line_end = tonumber(primary_span.line_end)
+              local col_end = tonumber(primary_span.column_end)
               local code_suffix = ''
               if type(message.code) == 'table' and message.code.code then
                 code_suffix = ' [' .. tostring(message.code.code) .. ']'
               end
               items[#items + 1] = {
                 filename = filename,
-                lnum = tonumber(primary.line_start) or 1,
-                col = tonumber(primary.column_start) or 1,
-                end_lnum = tonumber(primary.line_end) or nil,
-                end_col = tonumber(primary.column_end) or nil,
+                lnum = line_start or 1,
+                col = col_start or 1,
+                end_lnum = line_end,
+                end_col = col_end,
                 text = (message.message or 'cargo diagnostic') .. code_suffix,
                 type = util.qf_type_from_severity(level),
               }
