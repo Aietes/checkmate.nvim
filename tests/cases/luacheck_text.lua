@@ -48,4 +48,23 @@ return function(t, ctx)
   t.expect(type(parsed_default) == 'table', 'luacheck parser should parse default formatter output')
   t.expect_eq(#parsed_default.items, 2, 'luacheck parser should parse default formatter issues')
   t.expect_eq(parsed_default.items[1].type, 'W', 'default luacheck issues should map to warnings')
+
+  local clean_ctx = {
+    cmd = 'luacheck .',
+    title = 'luacheck',
+    cwd = cwd,
+    stdout = '',
+    stderr = '',
+    combined = table.concat({
+      'Checking lua/checkmate/commands.lua                         OK',
+      'Checking lua/checkmate/runner.lua                           OK',
+      '',
+      'Total: 0 warnings / 0 errors in 2 files',
+    }, '\n'),
+    errorformat = vim.o.errorformat,
+  }
+
+  local parsed_clean = ctx.state.parsers.luacheck(clean_ctx)
+  t.expect(type(parsed_clean) == 'table', 'luacheck parser should return success for clean output')
+  t.expect_eq(#parsed_clean.items, 0, 'clean luacheck output should produce zero items without fallback')
 end
