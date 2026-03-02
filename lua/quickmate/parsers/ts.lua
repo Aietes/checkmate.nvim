@@ -1,4 +1,4 @@
-local util = require 'checkmate.util'
+local util = require 'quickmate.util'
 
 local M = {}
 
@@ -19,8 +19,8 @@ local location_only_patterns = {
   '^%s*([~%./%w_%-%s]+):(%d+):(%d+)%s*$',
 }
 
----@param ctx checkmate.ParserContext
----@return checkmate.ParserResult|nil
+---@param ctx quickmate.ParserContext
+---@return quickmate.ParserResult|nil
 function M.parse(ctx)
   local items = {}
   local current = nil

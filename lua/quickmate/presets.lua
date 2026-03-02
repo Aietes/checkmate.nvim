@@ -1,6 +1,6 @@
 local M = {}
 
----@param state checkmate.State
+---@param state quickmate.State
 function M.register_builtin_presets(state)
   local function build_exec_command(pm, bin, args)
     local suffix = args and (' ' .. args) or ''

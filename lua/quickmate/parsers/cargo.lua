@@ -1,8 +1,8 @@
-local util = require 'checkmate.util'
+local util = require 'quickmate.util'
 
 local M = {}
 
----@class checkmate.CargoSpan
+---@class quickmate.CargoSpan
 ---@field file_name? string
 ---@field line_start? integer
 ---@field column_start? integer
@@ -10,8 +10,8 @@ local M = {}
 ---@field column_end? integer
 ---@field is_primary? boolean
 
----@param ctx checkmate.ParserContext
----@return checkmate.ParserResult|nil
+---@param ctx quickmate.ParserContext
+---@return quickmate.ParserResult|nil
 function M.parse_json(ctx)
   local lines = vim.split(ctx.combined, '\n', { plain = true })
   local items = {}
@@ -39,7 +39,7 @@ function M.parse_json(ctx)
             end
             local filename = primary and primary.file_name or nil
             if type(filename) == 'string' and filename ~= '' and type(primary) == 'table' then
-              ---@type checkmate.CargoSpan
+              ---@type quickmate.CargoSpan
               local primary_span = primary
               local line_start = tonumber(primary_span.line_start)
               local col_start = tonumber(primary_span.column_start)

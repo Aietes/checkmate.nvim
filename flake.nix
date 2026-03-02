@@ -1,5 +1,5 @@
 {
-  description = "checkmate.nvim development shell";
+  description = "quickmate.nvim development shell";
 
   inputs = { nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable"; };
 

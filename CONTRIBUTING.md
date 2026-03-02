@@ -13,8 +13,8 @@ Clone and run tests:
 
 ## Project Structure
 
-- `lua/checkmate/` plugin source
-- `doc/checkmate.txt` help docs
+- `lua/quickmate/` plugin source
+- `doc/quickmate.txt` help docs
 - `tests/` headless Neovim test suite
 - `scripts/test.sh` test entrypoint
 - `scripts/release.sh` release automation
@@ -27,7 +27,7 @@ Clone and run tests:
    - `./scripts/test.sh`
 4. Update docs when API/commands/config change:
    - `README.md`
-   - `doc/checkmate.txt`
+   - `doc/quickmate.txt`
    - `CHANGELOG.md` (for user-visible changes)
 5. Regenerate help tags:
    - `nvim --headless -u NONE "+helptags doc" +qa`

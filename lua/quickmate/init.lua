@@ -1,49 +1,49 @@
-local commands = require 'checkmate.commands'
-local parser_registry = require 'checkmate.parsers'
-local presets = require 'checkmate.presets'
-local runner = require 'checkmate.runner'
-local state_mod = require 'checkmate.state'
-local version = require 'checkmate.version'
+local commands = require 'quickmate.commands'
+local parser_registry = require 'quickmate.parsers'
+local presets = require 'quickmate.presets'
+local runner = require 'quickmate.runner'
+local state_mod = require 'quickmate.state'
+local version = require 'quickmate.version'
 
 local M = {}
 M.VERSION = version.current
 
----@alias checkmate.OpenQuickfixPolicy 'on_items'|'always'|'never'
+---@alias quickmate.OpenQuickfixPolicy 'on_items'|'always'|'never'
 
----@class checkmate.SetupOpts
----@field open_quickfix? checkmate.OpenQuickfixPolicy
+---@class quickmate.SetupOpts
+---@field open_quickfix? quickmate.OpenQuickfixPolicy
 ---@field default_errorformat? string
 ---@field commands? boolean
 ---@field package_manager? string
 ---@field package_manager_priority? string[]
----@field presets? table<string, checkmate.PresetOpts>
+---@field presets? table<string, quickmate.PresetOpts>
 
----@class checkmate.RunOpts
+---@class quickmate.RunOpts
 ---@field title? string
 ---@field cwd? string
 ---@field env? table<string, string>
 ---@field timeout_ms? integer
 ---@field package_manager? string
----@field parser? string|(fun(ctx: checkmate.ParserContext): checkmate.ParserResult)|nil
+---@field parser? string|(fun(ctx: quickmate.ParserContext): quickmate.ParserResult)|nil
 ---@field errorformat? string
----@field open_quickfix? checkmate.OpenQuickfixPolicy
----@field on_complete? fun(result: checkmate.RunResult)
+---@field open_quickfix? quickmate.OpenQuickfixPolicy
+---@field on_complete? fun(result: quickmate.RunResult)
 
----@class checkmate.PresetCmdCtx
+---@class quickmate.PresetCmdCtx
 ---@field package_manager string
 ---@field cwd string
 
----@class checkmate.PresetOpts
----@field cmd string|fun(ctx: checkmate.PresetCmdCtx): string
+---@class quickmate.PresetOpts
+---@field cmd string|fun(ctx: quickmate.PresetCmdCtx): string
 ---@field title? string
----@field parser? string|(fun(ctx: checkmate.ParserContext): checkmate.ParserResult)|nil
+---@field parser? string|(fun(ctx: quickmate.ParserContext): quickmate.ParserResult)|nil
 ---@field errorformat? string
 ---@field cwd? string
 ---@field env? table<string, string>
 ---@field timeout_ms? integer
----@field open_quickfix? checkmate.OpenQuickfixPolicy
+---@field open_quickfix? quickmate.OpenQuickfixPolicy
 
----@class checkmate.ParserContext
+---@class quickmate.ParserContext
 ---@field cmd string
 ---@field title string
 ---@field cwd string
@@ -52,12 +52,12 @@ M.VERSION = version.current
 ---@field combined string
 ---@field errorformat string
 
----@class checkmate.ParserResult
+---@class quickmate.ParserResult
 ---@field items table[]
 ---@field ok? boolean
 ---@field message? string
 
----@class checkmate.RunResult
+---@class quickmate.RunResult
 ---@field cmd string
 ---@field title string
 ---@field code integer
@@ -73,7 +73,7 @@ local state = state_mod.state
 local known_package_managers = state_mod.known_package_managers
 
 ---@param cmd string
----@param opts checkmate.RunOpts|nil
+---@param opts quickmate.RunOpts|nil
 function M.run(cmd, opts)
   runner.run(cmd, opts)
 end
@@ -84,19 +84,19 @@ function M.version()
 end
 
 ---@param name string
----@param opts checkmate.RunOpts|nil
+---@param opts quickmate.RunOpts|nil
 function M.run_script(name, opts)
   runner.run_script(name, opts)
 end
 
 ---@param name string
----@param opts checkmate.RunOpts|nil
+---@param opts quickmate.RunOpts|nil
 function M.run_preset(name, opts)
   runner.run_preset(name, opts)
 end
 
 ---@param name string
----@param parser_fn fun(ctx: checkmate.ParserContext): checkmate.ParserResult|nil
+---@param parser_fn fun(ctx: quickmate.ParserContext): quickmate.ParserResult|nil
 function M.register_parser(name, parser_fn)
   if type(name) ~= 'string' or name == '' then
     return
@@ -108,7 +108,7 @@ function M.register_parser(name, parser_fn)
 end
 
 ---@param name string
----@param preset_opts checkmate.PresetOpts
+---@param preset_opts quickmate.PresetOpts
 function M.register_preset(name, preset_opts)
   if type(name) ~= 'string' or name == '' then
     return
@@ -119,7 +119,7 @@ function M.register_preset(name, preset_opts)
   state.presets[name] = preset_opts
 end
 
----@param opts checkmate.SetupOpts|nil
+---@param opts quickmate.SetupOpts|nil
 function M.setup(opts)
   opts = opts or {}
 

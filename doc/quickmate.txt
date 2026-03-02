@@ -1,25 +1,25 @@
-*checkmate.txt*        checkmate.nvim help        Last change: 2026-03-01
+*quickmate.txt*        quickmate.nvim help        Last change: 2026-03-01
 
 ==============================================================================
-CONTENTS                                                  *checkmate-contents*
+CONTENTS                                                  *quickmate-contents*
 
-1. Introduction...........................|checkmate-introduction|
-2. Requirements...........................|checkmate-requirements|
-3. Installation...........................|checkmate-installation|
-4. Setup..................................|checkmate-setup|
-5. Commands...............................|checkmate-commands|
-6. API....................................|checkmate-api|
-7. Parsers................................|checkmate-parsers|
-8. Presets................................|checkmate-presets|
-9. Notifications..........................|checkmate-notifications|
-10. Health................................|checkmate-health|
-11. Versioning............................|checkmate-versioning|
-12. Testing...............................|checkmate-testing|
+1. Introduction...........................|quickmate-introduction|
+2. Requirements...........................|quickmate-requirements|
+3. Installation...........................|quickmate-installation|
+4. Setup..................................|quickmate-setup|
+5. Commands...............................|quickmate-commands|
+6. API....................................|quickmate-api|
+7. Parsers................................|quickmate-parsers|
+8. Presets................................|quickmate-presets|
+9. Notifications..........................|quickmate-notifications|
+10. Health................................|quickmate-health|
+11. Versioning............................|quickmate-versioning|
+12. Testing...............................|quickmate-testing|
 
 ==============================================================================
-INTRODUCTION                                              *checkmate-introduction*
+INTRODUCTION                                              *quickmate-introduction*
 
-checkmate.nvim is a quickfix-first command runner for Neovim.
+quickmate.nvim is a quickfix-first command runner for Neovim.
 
 Flow:
   command -> parser -> quickfix
@@ -27,35 +27,35 @@ Flow:
 It runs checks asynchronously with |vim.system()|, parses output from common
 linters/typecheckers/analyzers, and writes normalized quickfix entries.
 
-Main help tag:                                              *checkmate.nvim*
+Main help tag:                                              *quickmate.nvim*
 
 ==============================================================================
-REQUIREMENTS                                              *checkmate-requirements*
+REQUIREMENTS                                              *quickmate-requirements*
 
 - Neovim 0.10+
 
 ==============================================================================
-INSTALLATION                                              *checkmate-installation*
+INSTALLATION                                              *quickmate-installation*
 
 With lazy.nvim:
 
 >lua
   {
-    'your-org/checkmate.nvim',
+    'Aietes/quickmate.nvim',
     opts = {},
   }
 <
 
 After installation, docs are available with:
-  :help checkmate.nvim
+  :help quickmate.nvim
 
 ==============================================================================
-SETUP                                                            *checkmate-setup*
+SETUP                                                            *quickmate-setup*
 
 Call setup once:
 
 >lua
-  require('checkmate').setup({
+  require('quickmate').setup({
     open_quickfix = 'on_items',
     default_errorformat = vim.o.errorformat,
     commands = true,
@@ -71,7 +71,7 @@ Call setup once:
   })
 <
 
-Options:                                          *checkmate-setup-options*
+Options:                                          *quickmate-setup-options*
   open_quickfix                                           (default: 'on_items')
     One of: 'on_items' | 'always' | 'never'
 
@@ -92,10 +92,10 @@ Options:                                          *checkmate-setup-options*
     Table of preset definitions merged with built-ins.
 
 ==============================================================================
-COMMANDS                                                      *checkmate-commands*
+COMMANDS                                                      *quickmate-commands*
 
 :Check {shell command}                                           *:Check*
-    Runs any shell command through checkmate.
+    Runs any shell command through quickmate.
     Example: >
       :Check cargo clippy --message-format=json
 <
@@ -114,22 +114,22 @@ COMMANDS                                                      *checkmate-command
     Runs a named preset directly.
 
 ==============================================================================
-API                                                                  *checkmate-api*
+API                                                                  *quickmate-api*
 
 Require module:
 >lua
-  local check = require('checkmate')
+  local check = require('quickmate')
 <
 
 Functions:
 
-check.setup(opts)                                           *checkmate.setup()*
-check.version()                                         *checkmate.version()*
-check.run(cmd, opts?)                                         *checkmate.run()*
-check.run_script(name, opts?)                           *checkmate.run_script()*
-check.run_preset(name, opts?)                           *checkmate.run_preset()*
-check.register_parser(name, fn)                     *checkmate.register_parser()*
-check.register_preset(name, preset)                 *checkmate.register_preset()*
+check.setup(opts)                                           *quickmate.setup()*
+check.version()                                         *quickmate.version()*
+check.run(cmd, opts?)                                         *quickmate.run()*
+check.run_script(name, opts?)                           *quickmate.run_script()*
+check.run_preset(name, opts?)                           *quickmate.run_preset()*
+check.register_parser(name, fn)                     *quickmate.register_parser()*
+check.register_preset(name, preset)                 *quickmate.register_preset()*
 
 Also available:
   check.VERSION
@@ -150,22 +150,22 @@ on_complete(result) fields:
   items, parser_used, duration_ms
 
 ==============================================================================
-PARSERS                                                          *checkmate-parsers*
+PARSERS                                                          *quickmate-parsers*
 
 Built-in parsers:
-  efm                                                     *checkmate-parser-efm*
-  oxlint_json                                       *checkmate-parser-oxlint_json*
-  eslint_json                                       *checkmate-parser-eslint_json*
-  cargo_json                                         *checkmate-parser-cargo_json*
-  selene                                                 *checkmate-parser-selene*
-  selene_json2                                     *checkmate-parser-selene_json2*
-  luacheck                                           *checkmate-parser-luacheck*
-  luacheck_text                                 *checkmate-parser-luacheck_text*
-  ts_text                                               *checkmate-parser-ts_text*
-  mixed_lint_json                               *checkmate-parser-mixed_lint_json*
-  oxlint                                                   *checkmate-parser-oxlint*
-  eslint_text                                       *checkmate-parser-eslint_text*
-  eslint                                                   *checkmate-parser-eslint*
+  efm                                                     *quickmate-parser-efm*
+  oxlint_json                                       *quickmate-parser-oxlint_json*
+  eslint_json                                       *quickmate-parser-eslint_json*
+  cargo_json                                         *quickmate-parser-cargo_json*
+  selene                                                 *quickmate-parser-selene*
+  selene_json2                                     *quickmate-parser-selene_json2*
+  luacheck                                           *quickmate-parser-luacheck*
+  luacheck_text                                 *quickmate-parser-luacheck_text*
+  ts_text                                               *quickmate-parser-ts_text*
+  mixed_lint_json                               *quickmate-parser-mixed_lint_json*
+  oxlint                                                   *quickmate-parser-oxlint*
+  eslint_text                                       *quickmate-parser-eslint_text*
+  eslint                                                   *quickmate-parser-eslint*
 
 Parser fallback strategy:
   1. Explicit parser in opts.parser
@@ -180,7 +180,7 @@ Custom parser contract:
   Returning nil or ok=false triggers fallback parser.
 
 ==============================================================================
-PRESETS                                                          *checkmate-presets*
+PRESETS                                                          *quickmate-presets*
 
 Built-in presets:
   oxlint  eslint  clippy  rust  tsc  nuxt  lua  selene  luacheck
@@ -200,20 +200,20 @@ Preset fields:
   open_quickfix?: 'on_items' | 'always' | 'never'
 
 ==============================================================================
-NOTIFICATIONS                                            *checkmate-notifications*
+NOTIFICATIONS                                            *quickmate-notifications*
 
-checkmate uses |vim.notify()| for:
+quickmate uses |vim.notify()| for:
   - running spinner
   - no issues / issues found summaries
   - parser fallback warnings
   - execution/parser errors
 
 ==============================================================================
-HEALTH                                                            *checkmate-health*
+HEALTH                                                            *quickmate-health*
 
 Run:
 >
-  :checkhealth checkmate
+  :checkhealth quickmate
 <
 
 Health output includes:
@@ -223,17 +223,17 @@ Health output includes:
   - parser/preset registration state in current session
 
 ==============================================================================
-VERSIONING                                                      *checkmate-versioning*
+VERSIONING                                                      *quickmate-versioning*
 
-checkmate.nvim uses SemVer with Git tags.
+quickmate.nvim uses SemVer with Git tags.
 
 Recommended tag format:
   vX.Y.Z
 
 Runtime version:
 >
-  :lua print(require('checkmate').VERSION)
-  :lua print(require('checkmate').version())
+  :lua print(require('quickmate').VERSION)
+  :lua print(require('quickmate').version())
 <
 
 Release script:
@@ -243,7 +243,7 @@ Release script:
 This updates VERSION files, runs tests, creates a release commit, and tags it.
 
 ==============================================================================
-TESTING                                                          *checkmate-testing*
+TESTING                                                          *quickmate-testing*
 
 Run tests:
 >

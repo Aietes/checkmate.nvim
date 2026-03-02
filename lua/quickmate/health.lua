@@ -9,9 +9,9 @@ end
 
 function M.check()
   local health = health_api()
-  local state = require('checkmate.state').state
+  local state = require('quickmate.state').state
 
-  health.start 'checkmate.nvim'
+  health.start 'quickmate.nvim'
 
   if vim.fn.has 'nvim-0.10' == 1 then
     health.ok('Neovim version is supported (>= 0.10)')
@@ -42,18 +42,18 @@ function M.check()
   local preset_count = vim.tbl_count(state.presets or {})
 
   if parser_count == 0 then
-    health.warn('No parsers registered yet (call require("checkmate").setup())')
+    health.warn('No parsers registered yet (call require("quickmate").setup())')
   else
     health.ok(string.format('Registered parsers: %d', parser_count))
   end
 
   if preset_count == 0 then
-    health.warn('No presets registered yet (call require("checkmate").setup())')
+    health.warn('No presets registered yet (call require("quickmate").setup())')
   else
     health.ok(string.format('Registered presets: %d', preset_count))
   end
 
-  health.info('Run :help checkmate.nvim for usage and API docs')
+  health.info('Run :help quickmate.nvim for usage and API docs')
 end
 
 return M

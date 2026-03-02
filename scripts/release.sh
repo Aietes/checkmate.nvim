@@ -45,7 +45,7 @@ has_changelog_header() {
 }
 
 if [ "$DRY_RUN" = "--dry-run" ]; then
-  echo "Releasing checkmate.nvim $VERSION"
+  echo "Releasing quickmate.nvim $VERSION"
   if [ -n "$(git status --porcelain)" ]; then
     echo "[dry-run] Note: working tree is dirty (real release would fail)"
   fi
@@ -57,9 +57,9 @@ if [ "$DRY_RUN" = "--dry-run" ]; then
     echo "[dry-run]       Add a section like: ## [$VERSION] - $(date +%Y-%m-%d)"
   fi
   echo "[dry-run] Would write VERSION"
-  echo "[dry-run] Would write lua/checkmate/version.lua"
+  echo "[dry-run] Would write lua/quickmate/version.lua"
   echo "[dry-run] Would run ./scripts/test.sh"
-  echo "[dry-run] Would git add VERSION lua/checkmate/version.lua"
+  echo "[dry-run] Would git add VERSION lua/quickmate/version.lua"
   echo "[dry-run] Would git commit -m \"chore(release): v$VERSION\""
   echo "[dry-run] Would git tag v$VERSION"
   echo "[dry-run] Done"
@@ -83,11 +83,11 @@ if ! has_changelog_header; then
   exit 1
 fi
 
-echo "Releasing checkmate.nvim $VERSION"
+echo "Releasing quickmate.nvim $VERSION"
 
 printf '%s\n' "$VERSION" > VERSION
 
-cat > lua/checkmate/version.lua <<EOF
+cat > lua/quickmate/version.lua <<EOF
 local M = {}
 
 M.current = '$VERSION'
@@ -97,7 +97,7 @@ EOF
 
 ./scripts/test.sh
 
-git add VERSION lua/checkmate/version.lua
+git add VERSION lua/quickmate/version.lua
 if git diff --cached --quiet; then
   echo "No version file changes to commit; tagging current HEAD."
 else

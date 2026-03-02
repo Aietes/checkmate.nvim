@@ -1,4 +1,4 @@
-# `checkmate` Contract (v1)
+# `quickmate` Contract (v1)
 
 This document defines the initial API and behavior for a local utility that runs shell commands and parses output into the quickfix list.
 
@@ -26,7 +26,7 @@ This document defines the initial API and behavior for a local utility that runs
 
 ## Public API
 
-`checkmate` exposes:
+`quickmate` exposes:
 
 1. `setup(opts)`
 2. `run(cmd, opts?)`

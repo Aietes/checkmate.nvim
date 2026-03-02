@@ -22,7 +22,7 @@ The format follows Keep a Changelog and this project uses Semantic Versioning.
 ## [0.1.4] - 2026-03-01
 
 ### Changed
-- README intro now clearly positions `checkmate.nvim` as a project-wide diagnostics aggregator that complements buffer-focused tools (`nvim-lspconfig`, `nvim-lint`, `none-ls.nvim`, `conform.nvim`).
+- README intro now clearly positions `quickmate.nvim` as a project-wide diagnostics aggregator that complements buffer-focused tools (`nvim-lspconfig`, `nvim-lint`, `none-ls.nvim`, `conform.nvim`).
 - Contract documentation now matches implemented parser, preset, and runtime messaging behavior.
 - CI workflow now uses the correct `action-setup-vim` inputs for stable/nightly matrix testing.
 
@@ -59,15 +59,15 @@ The format follows Keep a Changelog and this project uses Semantic Versioning.
 
 ### Added
 - Release automation script (`scripts/release.sh`)
-- Help docs (`doc/checkmate.txt`) and tags
-- Health checks (`:checkhealth checkmate`)
+- Help docs (`doc/quickmate.txt`) and tags
+- Health checks (`:checkhealth quickmate`)
 - Headless test harness and parser-focused test cases
 - Runtime version API (`check.VERSION`, `check.version()`)
 
 ## [0.1.0] - 2026-02-28
 
 ### Added
-- Initial public release of `checkmate.nvim`
+- Initial public release of `quickmate.nvim`
 - Async command runner with quickfix-first workflow
 - Built-in parsers for eslint, oxlint, cargo, ts_text, mixed_lint_json, and efm fallback
 - Built-in presets (`oxlint`, `eslint`, `clippy`, `rust`, `tsc`, `nuxt`)

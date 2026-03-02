@@ -1,11 +1,11 @@
 return function(t)
-  local checkmate = require 'checkmate'
+  local quickmate = require 'quickmate'
 
   local done = false
-  ---@type checkmate.RunResult|nil
+  ---@type quickmate.RunResult|nil
   local result = nil
 
-  checkmate.run("printf 'oops\\n'", {
+  quickmate.run("printf 'oops\\n'", {
     parser = 'efm',
     errorformat = '%m',
     open_quickfix = 'never',

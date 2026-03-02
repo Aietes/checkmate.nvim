@@ -2,7 +2,7 @@ local M = {}
 
 ---@param lines string
 ---@param errorformat string
----@return checkmate.ParserResult
+---@return quickmate.ParserResult
 function M.parse(lines, errorformat)
   local qf = vim.fn.getqflist({
     lines = vim.split(lines, '\n', { plain = true }),

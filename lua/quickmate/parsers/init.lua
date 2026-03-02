@@ -1,15 +1,15 @@
-local cargo = require 'checkmate.parsers.cargo'
-local efm = require 'checkmate.parsers.efm'
-local eslint = require 'checkmate.parsers.eslint'
-local luacheck = require 'checkmate.parsers.luacheck'
-local mixed = require 'checkmate.parsers.mixed'
-local oxlint = require 'checkmate.parsers.oxlint'
-local selene = require 'checkmate.parsers.selene'
-local ts = require 'checkmate.parsers.ts'
+local cargo = require 'quickmate.parsers.cargo'
+local efm = require 'quickmate.parsers.efm'
+local eslint = require 'quickmate.parsers.eslint'
+local luacheck = require 'quickmate.parsers.luacheck'
+local mixed = require 'quickmate.parsers.mixed'
+local oxlint = require 'quickmate.parsers.oxlint'
+local selene = require 'quickmate.parsers.selene'
+local ts = require 'quickmate.parsers.ts'
 
 local M = {}
 
----@param state checkmate.State
+---@param state quickmate.State
 function M.register_builtin_parsers(state)
   state.parsers.oxlint = oxlint.parse
   state.parsers.eslint = eslint.parse

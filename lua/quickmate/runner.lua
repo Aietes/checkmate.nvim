@@ -1,6 +1,6 @@
-local progress_notify = require 'checkmate.progress'
-local state_mod = require 'checkmate.state'
-local util = require 'checkmate.util'
+local progress_notify = require 'quickmate.progress'
+local state_mod = require 'quickmate.state'
+local util = require 'quickmate.util'
 
 local M = {}
 
@@ -34,7 +34,7 @@ end
 
 ---@param title string
 ---@param items table[]
----@param open_policy checkmate.OpenQuickfixPolicy
+---@param open_policy quickmate.OpenQuickfixPolicy
 local function apply_quickfix(title, items, open_policy)
   vim.fn.setqflist({}, 'r', { title = title, items = items })
   if open_policy == 'always' or (open_policy == 'on_items' and #items > 0) then
@@ -43,7 +43,7 @@ local function apply_quickfix(title, items, open_policy)
 end
 
 ---@param cmd string
----@param opts checkmate.RunOpts|nil
+---@param opts quickmate.RunOpts|nil
 ---@return string
 local function resolve_cwd(cmd, opts)
   local function current_dir()
@@ -141,9 +141,9 @@ local function build_script_command(pm, script)
 end
 
 ---@param parser_name string|nil
----@param parser_fn fun(ctx: checkmate.ParserContext): checkmate.ParserResult|nil
----@param ctx checkmate.ParserContext
----@return checkmate.ParserResult|nil
+---@param parser_fn fun(ctx: quickmate.ParserContext): quickmate.ParserResult|nil
+---@param ctx quickmate.ParserContext
+---@return quickmate.ParserResult|nil
 ---@return string
 ---@return boolean
 local function safe_parse(parser_name, parser_fn, ctx)
@@ -163,14 +163,14 @@ local function safe_parse(parser_name, parser_fn, ctx)
 end
 
 ---@param cmd string
----@param opts checkmate.RunOpts
+---@param opts quickmate.RunOpts
 ---@return string|nil
----@return (fun(ctx: checkmate.ParserContext): checkmate.ParserResult)|nil
+---@return (fun(ctx: quickmate.ParserContext): quickmate.ParserResult)|nil
 local function resolve_explicit_parser(cmd, opts)
   local parser_opt = opts.parser
 
   if type(parser_opt) == 'function' then
-    ---@type fun(ctx: checkmate.ParserContext): checkmate.ParserResult|nil
+    ---@type fun(ctx: quickmate.ParserContext): quickmate.ParserResult|nil
     local parser_fn = parser_opt
     return 'custom', parser_fn
   end
@@ -193,9 +193,9 @@ local function resolve_explicit_parser(cmd, opts)
 end
 
 ---@param parser_name string|nil
----@param parser_fn (fun(ctx: checkmate.ParserContext): checkmate.ParserResult|nil)|nil
----@param ctx checkmate.ParserContext
----@return checkmate.ParserResult
+---@param parser_fn (fun(ctx: quickmate.ParserContext): quickmate.ParserResult|nil)|nil
+---@param ctx quickmate.ParserContext
+---@return quickmate.ParserResult
 ---@return string
 local function parse_with_fallback(parser_name, parser_fn, ctx)
   local used_fallback = false
@@ -245,7 +245,7 @@ local function has_file_target(item)
 end
 
 ---@param cmd string
----@param opts checkmate.RunOpts|nil
+---@param opts quickmate.RunOpts|nil
 function M.run(cmd, opts)
   cmd = util.normalize_command_input(cmd)
   if cmd == '' then
@@ -375,7 +375,7 @@ function M.run(cmd, opts)
 end
 
 ---@param name string
----@param opts checkmate.RunOpts|nil
+---@param opts quickmate.RunOpts|nil
 function M.run_script(name, opts)
   if type(name) ~= 'string' or name == '' then
     vim.notify('check: missing script name', vim.log.levels.ERROR)
@@ -395,7 +395,7 @@ function M.run_script(name, opts)
 end
 
 ---@param name string
----@param opts checkmate.RunOpts|nil
+---@param opts quickmate.RunOpts|nil
 function M.run_preset(name, opts)
   local preset = state.presets[name]
   if not preset then

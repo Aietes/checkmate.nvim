@@ -1,4 +1,4 @@
-local util = require 'checkmate.util'
+local util = require 'quickmate.util'
 
 local M = {}
 
@@ -19,8 +19,8 @@ local function map_severity(sev)
   return level == 'error' and 'E' or 'W'
 end
 
----@param ctx checkmate.ParserContext
----@return checkmate.ParserResult|nil
+---@param ctx quickmate.ParserContext
+---@return quickmate.ParserResult|nil
 function M.parse_json2(ctx)
   local lines = vim.split(util.strip_ansi(ctx.combined), '\n', { plain = true })
   local items = {}
@@ -64,8 +64,8 @@ function M.parse_json2(ctx)
   return { items = util.normalize_items(items, ctx.cwd), ok = true }
 end
 
----@param ctx checkmate.ParserContext
----@return checkmate.ParserResult|nil
+---@param ctx quickmate.ParserContext
+---@return quickmate.ParserResult|nil
 function M.parse_text(ctx)
   local lines = vim.split(util.strip_ansi(ctx.combined), '\n', { plain = true })
   local items = {}
@@ -100,8 +100,8 @@ function M.parse_text(ctx)
   return { items = util.normalize_items(items, ctx.cwd), ok = true }
 end
 
----@param ctx checkmate.ParserContext
----@return checkmate.ParserResult|nil
+---@param ctx quickmate.ParserContext
+---@return quickmate.ParserResult|nil
 function M.parse(ctx)
   return M.parse_json2(ctx) or M.parse_text(ctx)
 end

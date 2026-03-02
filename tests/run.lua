@@ -6,11 +6,11 @@ package.path = table.concat({
   package.path,
 }, ';')
 
-local checkmate = require 'checkmate'
-local state = require('checkmate.state').state
+local quickmate = require 'quickmate'
+local state = require('quickmate.state').state
 local t = require 'tests.lib.harness'
 
-checkmate.setup({ commands = false })
+quickmate.setup({ commands = false })
 
 local case_files = vim.fn.globpath(root .. '/tests/cases', '*.lua', false, true)
 table.sort(case_files)
@@ -23,4 +23,4 @@ for _, path in ipairs(case_files) do
   executed = executed + 1
 end
 
-print(string.format('checkmate tests passed (%d files, %d assertions)', executed, t.assertions))
+print(string.format('quickmate tests passed (%d files, %d assertions)', executed, t.assertions))

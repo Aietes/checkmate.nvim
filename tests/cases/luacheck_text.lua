@@ -35,9 +35,9 @@ return function(t, ctx)
     stdout = '',
     stderr = '',
     combined = table.concat({
-      'Checking lua/checkmate/commands.lua                         2 warnings',
-      'lua/checkmate/commands.lua:31:24: unused variable script_name',
-      'lua/checkmate/commands.lua:42:7: setting non-standard global variable foo',
+      'Checking lua/quickmate/commands.lua                         2 warnings',
+      'lua/quickmate/commands.lua:31:24: unused variable script_name',
+      'lua/quickmate/commands.lua:42:7: setting non-standard global variable foo',
       '',
       'Total: 2 warnings / 0 errors in 1 file',
     }, '\n'),
@@ -56,8 +56,8 @@ return function(t, ctx)
     stdout = '',
     stderr = '',
     combined = table.concat({
-      'Checking lua/checkmate/commands.lua                         OK',
-      'Checking lua/checkmate/runner.lua                           OK',
+      'Checking lua/quickmate/commands.lua                         OK',
+      'Checking lua/quickmate/runner.lua                           OK',
       '',
       'Total: 0 warnings / 0 errors in 2 files',
     }, '\n'),

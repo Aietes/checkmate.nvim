@@ -1,8 +1,8 @@
-local util = require 'checkmate.util'
+local util = require 'quickmate.util'
 
 local M = {}
 
----@param state checkmate.State
+---@param state quickmate.State
 ---@param api table
 function M.register(state, api)
   if state.commands_registered then

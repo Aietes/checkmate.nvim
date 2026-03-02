@@ -1,8 +1,8 @@
-# checkmate.nvim
+# quickmate.nvim
 
 Get project-wide diagnostics from linters, typecheckers, and analyzers in one consolidated quickfix list.
 
-`checkmate.nvim` runs shell commands asynchronously, parses linter/typecheck/analyzer output, and populates the quickfix list with normalized entries. Neovim already has great tools for diagnostics in open buffers, like `nvim-lspconfig` (LSP), `nvim-lint`, `none-ls.nvim`, and formatter flows with `conform.nvim`; the gap is project-wide checking across all files with one consolidated quickfix list, which is especially useful in team collaboration and pre-PR validation.
+`quickmate.nvim` runs shell commands asynchronously, parses linter/typecheck/analyzer output, and populates the quickfix list with normalized entries. Neovim already has great tools for diagnostics in open buffers, like `nvim-lspconfig` (LSP), `nvim-lint`, `none-ls.nvim`, and formatter flows with `conform.nvim`; the gap is project-wide checking across all files with one consolidated quickfix list, which is especially useful in team collaboration and pre-PR validation.
 
 ## Features
 
@@ -23,7 +23,7 @@ Get project-wide diagnostics from linters, typecheckers, and analyzers in one co
 
 ## Scope and Rationale
 
-`checkmate.nvim` is intentionally focused on checks that produce diagnostics across a project:
+`quickmate.nvim` is intentionally focused on checks that produce diagnostics across a project:
 
 - linters
 - typecheckers
@@ -31,7 +31,7 @@ Get project-wide diagnostics from linters, typecheckers, and analyzers in one co
 
 Per-buffer linting and formatter/auto-fix workflows are intentionally out of scope, since they are typically handled by tools such as `nvim-lint` and `conform.nvim`.
 
-This keeps `checkmate.nvim` simple: one job, one output target (quickfix).
+This keeps `quickmate.nvim` simple: one job, one output target (quickfix).
 
 ## Requirements
 
@@ -40,16 +40,16 @@ This keeps `checkmate.nvim` simple: one job, one output target (quickfix).
 ## Health Check
 
 ```vim
-:checkhealth checkmate
+:checkhealth quickmate
 ```
 
 ## What This Plugin Does Not Do
 
-`checkmate.nvim` does not install or configure linters/typecheckers/analyzers for you.
+`quickmate.nvim` does not install or configure linters/typecheckers/analyzers for you.
 
 Each project is expected to provide its own tools and configuration (for example via `package.json`, `Cargo.toml`, local config files, and installed binaries).
 
-`checkmate.nvim` is responsible for:
+`quickmate.nvim` is responsible for:
 
 - running your command
 - parsing output
@@ -61,7 +61,7 @@ Each project is expected to provide its own tools and configuration (for example
 
 ```lua
 {
-  'Aietes/checkmate.nvim',
+  'Aietes/quickmate.nvim',
   -- optional: pin to a release tag
   -- version = '*',
   opts = {},
@@ -71,13 +71,13 @@ Each project is expected to provide its own tools and configuration (for example
 ### Manual setup
 
 ```lua
-require('checkmate').setup()
+require('quickmate').setup()
 ```
 
 Help docs:
 
 ```vim
-:help checkmate.nvim
+:help quickmate.nvim
 ```
 
 If needed (manual installs), generate help tags:
@@ -163,7 +163,7 @@ Why this pattern:
 ## Configuration
 
 ```lua
-require('checkmate').setup({
+require('quickmate').setup({
   open_quickfix = 'on_items', -- 'on_items' | 'always' | 'never'
   default_errorformat = vim.o.errorformat,
   commands = true,
@@ -188,7 +188,7 @@ Package manager detection order:
 
 ## Package Manager Detection
 
-For JS/TS commands (`:CheckScript` and manager-aware presets), `checkmate.nvim` resolves a package manager in this order:
+For JS/TS commands (`:CheckScript` and manager-aware presets), `quickmate.nvim` resolves a package manager in this order:
 
 1. Per-run override (`opts.package_manager`)
 2. Global setup override (`setup({ package_manager = ... })`)
@@ -208,7 +208,7 @@ Command translation examples:
 ## API
 
 ```lua
-local check = require('checkmate')
+local check = require('quickmate')
 
 check.VERSION
 check.version()
@@ -222,9 +222,9 @@ check.register_preset(name, preset)
 
 ## Versioning
 
-`checkmate.nvim` uses SemVer and Git tags (standard for Neovim plugins).
+`quickmate.nvim` uses SemVer and Git tags (standard for Neovim plugins).
 
-- Source-of-truth runtime version: `require('checkmate').VERSION`
+- Source-of-truth runtime version: `require('quickmate').VERSION`
 - Current version file: `VERSION`
 - Release tags should be `vX.Y.Z` (for example `v0.1.0`)
 - Repeatable release script: `./scripts/release.sh X.Y.Z`
@@ -273,7 +273,7 @@ Native `vim.notify` is used for:
 Register custom parsers:
 
 ```lua
-require('checkmate').register_parser('my_tool', function(ctx)
+require('quickmate').register_parser('my_tool', function(ctx)
   -- return { items = {...}, ok = true } or nil
 end)
 ```
@@ -281,7 +281,7 @@ end)
 Register custom presets:
 
 ```lua
-require('checkmate').register_preset('my_check', {
+require('quickmate').register_preset('my_check', {
   cmd = 'pnpm run my:check',
   parser = 'mixed_lint_json',
   title = 'my check',

@@ -1,4 +1,4 @@
-local util = require 'checkmate.util'
+local util = require 'quickmate.util'
 
 local M = {}
 
@@ -12,9 +12,9 @@ local function encode_json(decoded)
   return ''
 end
 
----@param ctx checkmate.ParserContext
+---@param ctx quickmate.ParserContext
 ---@param deps table
----@return checkmate.ParserResult|nil
+---@return quickmate.ParserResult|nil
 function M.parse(ctx, deps)
   local candidates = util.extract_json_candidates(util.strip_ansi(ctx.combined))
 

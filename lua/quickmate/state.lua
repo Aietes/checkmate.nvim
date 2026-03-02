@@ -7,15 +7,15 @@ M.known_package_managers = {
   yarn = true,
 }
 
----@class checkmate.State
----@field open_quickfix checkmate.OpenQuickfixPolicy
+---@class quickmate.State
+---@field open_quickfix quickmate.OpenQuickfixPolicy
 ---@field default_errorformat string
 ---@field commands boolean
 ---@field commands_registered boolean
 ---@field package_manager string|nil
 ---@field package_manager_priority string[]
----@field parsers table<string, fun(ctx: checkmate.ParserContext): checkmate.ParserResult|nil>
----@field presets table<string, checkmate.PresetOpts>
+---@field parsers table<string, fun(ctx: quickmate.ParserContext): quickmate.ParserResult|nil>
+---@field presets table<string, quickmate.PresetOpts>
 M.state = {
   open_quickfix = 'on_items',
   default_errorformat = vim.o.errorformat,
