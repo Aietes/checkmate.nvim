@@ -9,6 +9,17 @@ The format follows Keep a Changelog and this project uses Semantic Versioning.
 ### Added
 - No unreleased entries yet.
 
+## [0.1.6] - 2026-03-01
+
+### Changed
+- Plugin renamed from `checkmate.nvim` to `quickmate.nvim`.
+- Repository references updated to `Aietes/quickmate.nvim`.
+- Help and health entry points now use `quickmate` naming (`:help quickmate.nvim`, `:checkhealth quickmate`).
+
+### Breaking
+- Lua module namespace changed from `require('checkmate')` to `require('quickmate')`.
+- Help doc file and tags renamed from `checkmate` to `quickmate`.
+
 ## [0.1.5] - 2026-03-01
 
 ### Added
