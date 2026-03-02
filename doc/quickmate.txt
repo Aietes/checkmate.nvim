@@ -27,6 +27,13 @@ Flow:
 It runs checks asynchronously with |vim.system()|, parses output from common
 linters/typecheckers/analyzers, and writes normalized quickfix entries.
 
+Note: many LSPs can populate quickfix directly via
+|vim.diagnostic.setqflist()|. In many TypeScript/script-driven setups, LSP
+diagnostics are limited to open files, so explicit project commands (for
+example tsc/nuxt/eslint/oxlint) are necessary for full-project results.
+quickmate normalizes that output into one quickfix workflow. This keeps checks
+repeatable and independent of local Neovim LSP setup.
+
 Main help tag:                                              *quickmate.nvim*
 
 ==============================================================================

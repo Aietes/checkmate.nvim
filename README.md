@@ -14,9 +14,11 @@ The plugin runs the respective check tool/script asynchronously, parses linter/t
 - typecheckers
 - analyzers
 
-No formatter orchestration, no task-runner complexity — just `command → parser → quickfix`.
+No formatter orchestration, no task-runner complexity — just `command → parser → quickfix`. This also makes checks repeatable across environments and independent of each developer's Neovim LSP configuration.
 
 > Per-buffer linting and formatter/auto-fix workflows are intentionally out of scope, since they are typically handled by active LSPs via `nvim-lspconfig`, plugins like `nvim-lint` or `none-ls.nvim`, and formatter flows with `conform.nvim`. **quickmate.nvim** aims to complement the existing tools with a simple and quick _project-wide checks_ → _quickfix list_.
+>
+> For many language servers, native diagnostics can already be pushed to quickfix with `vim.diagnostic.setqflist({ open = true })`. In many TypeScript/script-driven setups, LSP diagnostics are limited to currently open files, so project commands (for example `tsc`, `nuxt typecheck`, `eslint`, `oxlint`) are necessary to capture full-project results. **quickmate.nvim** focuses on normalizing that output into quickfix without complicated workarounds.
 
 ## Features
 
