@@ -6,6 +6,8 @@
 
 **quickmate.nvim** provides **project-wide diagnostics** from linters, typecheckers, and analyzers in a **consolidated quickfix list**.
 
+**Contents:** [Installation](#installation) · [Commands](#commands) · [Presets](#built-in-presets) · [Configuration](#configuration) · [API](#api) · [Contributing](#contributing)
+
 The plugin runs the respective check tool/script asynchronously, parses linter/typecheck/analyzer output, and populates the quickfix list with normalized entries. It is intentionally focused on checks that produce diagnostics across a project:
 
 - linters
@@ -18,20 +20,21 @@ No formatter orchestration, no task-runner complexity — just `command → pars
 
 ## Features
 
-- Async command execution via `vim.system`
-- Quickfix-first workflow (`command -> parser -> quickfix`)
-- Package manager aware script/exec command building (`pnpm`, `bun`, `npm`, `yarn`)
-- Built-in parsers for:
-  - `oxlint` JSON and text output
-  - `eslint` JSON and text output
-  - `tsc` / `nuxt typecheck` text diagnostics
-  - `selene` Json2 and quiet output
-  - `luacheck` text diagnostics
-  - `cargo` JSON from `--message-format=json` diagnostics
-  - `errorformat` fallback for generic tools
-- Mixed-output parser for scripts that combine multiple tools (for example `nuxt typecheck;oxlint;eslint`)
-- Built-in command presets (`oxlint`, `eslint`, `clippy`, `rust`, `tsc`, `nuxt`, `lua`, `selene`, `luacheck`)
-- Native `vim.notify` progress and completion messages
+- ⚡ Async command execution via `vim.system`
+- 🎯 Quickfix-first workflow (`command -> parser -> quickfix`)
+- 📦 Package manager aware script/exec command building (`pnpm`, `bun`, `npm`, `yarn`)
+- 🧠 Built-in parsers for:
+  - ![Oxc](doc/assets/logos/oxc-icon-color-dark.svg) `oxlint` JSON and text output
+  - ![ESLint](doc/assets/logos/eslint-logo-color.svg) `eslint` JSON and text output
+  - ![TypeScript](doc/assets/logos/ts-logo-128.svg) `tsc` / `nuxt typecheck` text diagnostics
+  - ![Lua](doc/assets/logos/Lua-Logo.svg) `selene` Json2 and quiet output
+  - ![Lua](doc/assets/logos/Lua-Logo.svg) `luacheck` text diagnostics
+  - ![Rust](doc/assets/logos/rust-logo-red.svg) `cargo` JSON from `--message-format=json` diagnostics
+  - 🧰 `errorformat` fallback for generic tools
+
+- 🔀 Mixed-output parser for scripts that combine multiple tools (for example `nuxt typecheck;oxlint;eslint`)
+- 🧩 Built-in command presets (`oxlint`, `eslint`, `clippy`, `rust`, `tsc`, `nuxt`, `lua`, `selene`, `luacheck`)
+- 🔔 `vim.notify`-based progress and completion/error feedback
 
 > **quickmate.nvim** does not install or configure linters/typecheckers/analyzers for you. Each project is expected to provide its own tools and configuration (for example via `package.json`, `Cargo.toml`, local config files, and installed binaries).
 
@@ -215,15 +218,6 @@ Parse order:
 
 This allows one `:CheckScript check` command to collect all issues into one quickfix list.
 
-## Notifications
-
-Native `vim.notify` is used for:
-
-- Running spinner while command executes
-- Completion status (`no issues`, `<n> issue(s)`)
-- Parser fallback warnings
-- Execution/parser errors
-
 ## Extending
 
 Register custom parsers:
@@ -244,7 +238,18 @@ require('quickmate').register_preset('my_check', {
 })
 ```
 
-## Contributing Presets
+## Contributing
+
+See [CONTRIBUTING.md](./CONTRIBUTING.md) for development workflow and release steps.
+
+### Design Principles
+
+- Prefer native Neovim APIs (`vim.system`, `vim.fs.root`, quickfix APIs)
+- Keep behavior predictable and quickfix-focused
+- Avoid task-runner orchestration complexity
+- Keep parser modules composable and small
+
+### Contributing Presets
 
 Additional presets are welcome.
 
@@ -260,17 +265,6 @@ Prefer presets that are:
 - diagnostics-focused (lint/typecheck/analyzer)
 - stable across common project setups
 - parser-backed (structured JSON preferred when available)
-
-## Contributing
-
-See [CONTRIBUTING.md](./CONTRIBUTING.md) for development workflow and release steps.
-
-### Design Principles
-
-- Prefer native Neovim APIs (`vim.system`, `vim.fs.root`, quickfix APIs)
-- Keep behavior predictable and quickfix-focused
-- Avoid task-runner orchestration complexity
-- Keep parser modules composable and small
 
 ### Testing
 
