@@ -9,6 +9,16 @@ The format follows Keep a Changelog and this project uses Semantic Versioning.
 ### Added
 - No unreleased entries yet.
 
+## [0.1.7] - 2026-03-02
+
+### Changed
+- `setup()` is now deterministic/idempotent: configurable state resets on each call before built-ins and user options are applied.
+- README restructured and improved for clarity (badges, configuration guidance, consolidated JS/TS package-manager detection, preset consistency).
+
+### Fixed
+- Calling runtime APIs before `setup()` no longer triggers parser fallback crashes; built-ins are lazily registered when needed.
+- Function-based presets now fail early with a clear error if no supported package manager is available instead of implicitly defaulting to `pnpm`.
+
 ## [0.1.6] - 2026-03-01
 
 ### Changed
