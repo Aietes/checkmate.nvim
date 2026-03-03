@@ -8,17 +8,17 @@
 
 **Contents:** [Installation](#installation) · [Commands](#commands) · [Presets](#built-in-presets) · [Configuration](#configuration) · [API](#api) · [Contributing](#contributing)
 
-The plugin runs the respective check tool/script asynchronously, parses linter/typecheck/analyzer output, and populates the quickfix list with normalized entries. It is intentionally focused on checks that produce diagnostics across a project:
+**quickmate.nvim** is complementary to LSP diagnostics and focuses on repeatable, ci-like checks that can be worked through in a quickfix list. The plugin runs the defined check tool/script asynchronously, parses linter/typecheck/analyzer output, and populates the quickfix list with normalized entries. It is intentionally focused on checks that produce diagnostics across a project:
 
 - linters
 - typecheckers
 - analyzers
 
-No formatter orchestration, no task-runner complexity — just `command → parser → quickfix`. This also makes checks repeatable across environments and independent of each developer's Neovim LSP configuration.
+No formatter orchestration, no task-runner complexity — just `command/script → parser → quickfix`. This makes checks repeatable across environments and independent of each developer's Neovim LSP configuration.
 
-> Per-buffer linting and formatter/auto-fix workflows are intentionally out of scope, since they are typically handled by active LSPs via `nvim-lspconfig`, plugins like `nvim-lint` or `none-ls.nvim`, and formatter flows with `conform.nvim`. **quickmate.nvim** aims to complement the existing tools with a simple and quick _project-wide checks_ → _quickfix list_.
->
-> For many language servers, native diagnostics can already be pushed to quickfix with `vim.diagnostic.setqflist({ open = true })`. In many TypeScript/script-driven setups, LSP diagnostics are limited to currently open files, so project commands (for example `tsc`, `nuxt typecheck`, `eslint`, `oxlint`) are necessary to capture full-project results. **quickmate.nvim** focuses on normalizing that output into quickfix without complicated workarounds.
+> In many TypeScript/script-driven setups, LSP diagnostics are limited to currently open files, so project-wide checks (for example `tsc`, `nuxt typecheck`, `eslint`, `oxlint`) are necessary to capture full-project results. **quickmate.nvim** focuses on normalizing that output into quickfix without complicated workarounds.
+
+> For many language servers (Rust, Lua, clang) project-wide diagnostics can be pushed to quickfix natively with `vim.diagnostic.setqflist({ open = true })` when you have your LSP properly configured. You might still want **quickmate.nvim** for defined, ci-like, repeatable, project-wide checks that are independent of LSP configuration and work across different environments.
 
 ## Features
 
